@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+    <!-- I'm going to try to use jQuery for this.                   -->
+    <!-- and if I learn React JS, then I'll try to use that too.    -->
+
+
+<!-- Bla Bla Bla -->
+
 
 <html>
     <head>
@@ -7,12 +13,160 @@
         </title>
 
         <link rel='icon' href='icon.jpg'>
+        <link rel='stylesheet' href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap">
 
+        <style>
+
+            body {
+                font-family: 'Roboto Mono', monospace;
+                font-size: 10pt;
+            }
+
+            .container {
+                background-color: aquamarine;
+                /* width: 90%; */
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: center;
+            }
+
+            .half {
+                background-color: bisque;
+                /* padding: 10px; */
+                margin: 10px 5px 10px 5px;
+                width: 40%;
+                display: flex;
+                flex-flow: column wrap;
+                /* align-items: stretch; */
+            }
+
+            .half > div {
+                background-color: white;
+                /* width: 100%; */
+                overflow-y: auto;
+            }
+            
+            .half > svg {
+                margin: 10px;
+            }
+            
+            /* .scroll {
+                background-color: white;
+                overflow-y: auto;
+                
+            } */
+
+            #codeSpace {
+                height: 100px;
+                padding: 10px;
+            }
+
+            #logicSpace {
+                display: flex;
+                justify-content: flex-start;
+            }
+
+            #logicSpace > div, input {
+                background-color: rgb(218, 218, 218);
+                margin: 10px 0px 10px 10px;
+            }
+
+            .text {
+                color: blue;
+
+            }
+
+        </style>
     </head>
 
 
     <body>
+        <div class='container'>
+            
+            <div class='half'>
+            <!-- the LEFT half -->
 
+                <div id='codeSpace'>
+                <!-- codeSpace -->
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </div>
+                
+                <br>
+
+                <div id='logicSpace'>
+                <!-- logicSpace -->
+
+                    <!-- <div class='text'>#1</div>
+                    <div class='dropMenu'>drop menu</div>
+                    <input class='text' id='inputText' type='text' placeholder="input" autofocus>
+                    <div class='text'>contingent</div> -->
+
+                </div>
+
+            </div>
+
+            <div class='half'>
+                <!-- the RIGHT half -->
+                
+                <svg width='500' height='500' style='background-color: #FFF;' id='artSpace'>
+                <!-- artSpace -->
+                    <line x1='0' x2='100' y1='0' y2='100' style="stroke:#000; stroke-width: 2px;" />
+                </svg>
+            </div>
+
+        </div>
+
+
+
+
+        <script>
+            
+            var codeSpace = document.getElementById('codeSpace');
+            
+            var logicSpace = document.getElementById('logicSpace');
+
+                let elem = document.createElement('div');
+                let elemText = document.createTextNode('what is this');
+                elem.append(elemText);
+                elem.id = 'AA';
+                logicSpace.appendChild(elem);
+
+                elem = document.createElement('div');
+                elemText = document.createTextNode('what is this');
+                elem.append(elemText);
+                elem.id = 'BB';
+                logicSpace.appendChild(elem);
+
+                elem = document.createElement('input');
+                // elemText = document.createTextNode('what is this');
+                // elem.append(elemText);
+                elem.id = 'CC';
+                elem.placeholder = 'wait a minute';
+                elem.onchange = function() {
+                    alert('it worked');
+                    codeSpace.innerText = elem.value;
+                    elem.value = '';
+                    elem.placeholder = '';
+                }
+                logicSpace.appendChild(elem);
+
+
+
+
+                codeSpace.innerText = document.getElementById('AA').innerText + '\n';
+                codeSpace.innerText += document.getElementById('BB').innerText + '\n';
+                codeSpace.innerText += document.getElementById('CC').innerText;
+                
+
+                /* logicRows[2].onchange = function() {
+                    alert('it worked');
+                    // codeSpace.innerText = button.value;
+                    // button.value = '';
+                    // button.placeholder = '';
+                } */
+
+
+        </script>
 
     </body>
 
