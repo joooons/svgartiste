@@ -3,8 +3,6 @@
     <!-- and if I learn React JS, then I'll try to use that too.    -->
 
 
-<!-- Something Else -->>
-
 
 <html>
     <head>
@@ -13,7 +11,11 @@
         </title>
 
         <link rel='icon' href='icon.jpg'>
+            <!-- the little icon graphic on the tab -->
+        
         <link rel='stylesheet' href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap">
+            <!-- loading some fonts -->
+
 
         <style>
 
@@ -143,9 +145,9 @@
                 elem.id = 'CC';
                 elem.placeholder = 'wait a minute';
                 elem.onchange = function() {
-                    alert('it worked');
+                    // alert('it worked');
                     codeSpace.innerText = elem.value;
-                    elem.value = '';
+                    // elem.value = '';
                     elem.placeholder = '';
                 }
                 logicSpace.appendChild(elem);
