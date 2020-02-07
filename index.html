@@ -12,9 +12,10 @@
 
         <link rel='icon' href='icon.jpg'>
             <!-- the little icon graphic on the tab -->
-        
         <link rel='stylesheet' href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap">
             <!-- loading some fonts -->
+        
+        <script src='https://code.jquery.com/jquery-3.4.1.js'></script>
 
 
         <style>
@@ -44,19 +45,12 @@
 
             .half > div {
                 background-color: white;
-                /* width: 100%; */
                 overflow-y: auto;
             }
             
             .half > svg {
                 margin: 10px;
             }
-            
-            /* .scroll {
-                background-color: white;
-                overflow-y: auto;
-                
-            } */
 
             #codeSpace {
                 height: 100px;
@@ -83,6 +77,7 @@
 
 
     <body>
+
         <div class='container'>
             
             <div class='half'>
@@ -90,7 +85,8 @@
 
                 <div id='codeSpace'>
                 <!-- codeSpace -->
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    <!-- Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. -->
+                    A shorter version of Loren ipsum dolor sit amet...
                 </div>
                 
                 <br>
@@ -98,10 +94,6 @@
                 <div id='logicSpace'>
                 <!-- logicSpace -->
 
-                    <!-- <div class='text'>#1</div>
-                    <div class='dropMenu'>drop menu</div>
-                    <input class='text' id='inputText' type='text' placeholder="input" autofocus>
-                    <div class='text'>contingent</div> -->
 
                 </div>
 
@@ -122,51 +114,14 @@
 
 
         <script>
-            
-            var codeSpace = document.getElementById('codeSpace');
-            
-            var logicSpace = document.getElementById('logicSpace');
 
-                let elem = document.createElement('div');
-                let elemText = document.createTextNode('what is this');
-                elem.append(elemText);
-                elem.id = 'AA';
-                logicSpace.appendChild(elem);
+            $("#logicSpace").append("<div id='AA'>first haha</div>");
+            $("#logicSpace").append("<div id='BB'>second haha</div>");
 
-                elem = document.createElement('div');
-                elemText = document.createTextNode('what is this');
-                elem.append(elemText);
-                elem.id = 'BB';
-                logicSpace.appendChild(elem);
-
-                elem = document.createElement('input');
-                // elemText = document.createTextNode('what is this');
-                // elem.append(elemText);
-                elem.id = 'CC';
-                elem.placeholder = 'wait a minute';
-                elem.onchange = function() {
-                    // alert('it worked');
-                    codeSpace.innerText = elem.value;
-                    // elem.value = '';
-                    elem.placeholder = '';
-                }
-                logicSpace.appendChild(elem);
-
-
-
-
-                codeSpace.innerText = document.getElementById('AA').innerText + '\n';
-                codeSpace.innerText += document.getElementById('BB').innerText + '\n';
-                codeSpace.innerText += document.getElementById('CC').innerText;
-                
-
-                /* logicRows[2].onchange = function() {
-                    alert('it worked');
-                    // codeSpace.innerText = button.value;
-                    // button.value = '';
-                    // button.placeholder = '';
-                } */
-
+            $("#logicSpace").append("<input id='CC' placeholder='what'/>");
+            $("#CC").on("change", function() {
+                $("#codeSpace").text( $("#CC").val() );
+            });
 
         </script>
 
