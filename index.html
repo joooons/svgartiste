@@ -3,7 +3,6 @@
     <!-- and if I learn React JS, then I'll try to use that too.    -->
 
 
-
 <html>
     <head>
         <title>
@@ -22,7 +21,7 @@
 
             body {
                 font-family: 'Roboto Mono', monospace;
-                font-size: 10pt;
+                font-size: 8pt;
             }
 
             .container {
@@ -68,8 +67,8 @@
             #logicSpace > div, input {
                 background-color: rgb(218, 218, 218);
                 margin: 10px 15px 10px 5px;
-                min-width: 50px;
-                width: 50px;
+                min-width: 20px;
+                width: 40px;
             }
 
             .text {
@@ -120,74 +119,65 @@
 
         <script>
 
-            var textID = ['id', 'type', 'x1', 'y1', 'x2', 'y2'];
-                // it kind of doesn't matter what I name these, by the way...
+            $("#logicSpace").append(`   ID`);
+            $("#logicSpace").append(`<div>1</div>`);
+            $("#logicSpace").append(`type`);
+            $("#logicSpace").append(`<div>line</div>`);
+            $("#logicSpace").append(`x1`);
+            $("#logicSpace").append(`<input value='0' />`);
+            $("#logicSpace").append(`y1`);
+            $("#logicSpace").append(`<input value='0' />`);
+            $("#logicSpace").append(`x2`);
+            $("#logicSpace").append(`<input value='100' />`);
+            $("#logicSpace").append(`y2`);
+            $("#logicSpace").append(`<input value='100' />`);
+            $("#logicSpace").append("<button>+</button>");
 
-
-
-            $("#logicSpace").append(`   ${textID[0]}`);
-            $("#logicSpace").append(`<div id='${textID[0]}'>first</div>`);
-            $("#logicSpace").append(`${textID[1]}`);
-            $("#logicSpace").append(`<div id='${textID[1]}'>second</div>`);
-            $("#logicSpace").append(`${textID[2]}`);
-            $("#logicSpace").append(`<input id='${textID[2]}' value='0' />`);
-            $("#logicSpace").append(`${textID[3]}`);
-            $("#logicSpace").append(`<input id='${textID[3]}' value='0' />`);
-            $("#logicSpace").append(`${textID[4]}`);
-            $("#logicSpace").append(`<input id='${textID[4]}' value='100' />`);
-            $("#logicSpace").append(`${textID[5]}`);
-            $("#logicSpace").append(`<input id='${textID[5]}' value='100' />`);
                 // The elements are added to the logicSpace
 
 
 
-            $(`#${textID[1]}`).append("<div></div>");
-            $(`#${textID[1]} > div`).append("<div> 1 </div>");
-            $(`#${textID[1]} > div`).append("<div> 2 </div>");
-            $(`#${textID[1]} > div`).append("<div> 3 </div>");
-            $(`#${textID[1]} > div`).hide();
+            // $("#logicSpace div:nth-child(2)").append("<div></div>");
+            // $("#logicSpace div:nth-child(2) > div").append("<div> 1 </div>");
+            // $("#logicSpace div:nth-child(2) > div").append("<div> 2 </div>");
+            // $("#logicSpace div:nth-child(2) > div").append("<div> 3 </div>");
+            // $("#logicSpace div:nth-child(2) > div").hide();
                 // Added "menu" items to the second div. This will be a drop menu.
 
 
 
-            $(`#${textID[1]}`).on("click", function() {
-                $(`#${textID[1]} > div`).slideToggle(300);
+            $("#logicSpace div:nth-child(2)").on("click", function() {
+                $("#logicSpace div:nth-child(2) > div").slideToggle(300);
             });
                 // This toggles the "drop menu"
 
 
 
-            $(`#${textID[2]}`).on("change", function() {
-                if (numberCheck()) updateSVG();
-            });
+            $("#logicSpace input:nth-child(3)").on("change", function() { if (numberCheck()) updateSVG(); });
+            $("#logicSpace input:nth-child(4)").on("change", function() { if (numberCheck()) updateSVG(); });
+            $("#logicSpace input:nth-child(5)").on("change", function() { if (numberCheck()) updateSVG(); });
+            $("#logicSpace input:nth-child(6)").on("change", function() { if (numberCheck()) updateSVG(); });
 
-            $(`#${textID[3]}`).on("change", function() {
-                if (numberCheck()) updateSVG();
-            });
+                // EVENT: on click
 
-            $(`#${textID[4]}`).on("change", function() {
-                if (numberCheck()) updateSVG();
-            });
 
-            $(`#${textID[5]}`).on("change", function() {
-                if (numberCheck()) updateSVG();
-            });
 
+            // --- FUNCTIONS ---
 
 
             function numberCheck() {
                 let a = true;
-                if ( /\D/.test( $(`#${textID[2]}`).val() ) ) a = false;
-                if ( /\D/.test( $(`#${textID[3]}`).val() ) ) a = false;
-                if ( /\D/.test( $(`#${textID[4]}`).val() ) ) a = false;
-                if ( /\D/.test( $(`#${textID[5]}`).val() ) ) a = false;
+                if ( /\D/.test( $("#logicSpace input:nth-child(3)").val() ) ) a = false;
+                if ( /\D/.test( $("#logicSpace input:nth-child(4)").val() ) ) a = false;
+                if ( /\D/.test( $("#logicSpace input:nth-child(5)").val() ) ) a = false;
+                if ( /\D/.test( $("#logicSpace input:nth-child(6)").val() ) ) a = false;
                 // alert(a);
                 return a;
             }
 
             function updateSVG() {
-                $("#artSpace").html(`<line x1='${ $(`#${textID[2]}`).val() }' x2='${ $(`#${textID[4]}`).val() }' y1='${ $(`#${textID[3]}`).val() }' y2='${ $(`#${textID[5]}`).val() }' style="stroke:#000; stroke-width: 2px;" />`);
-                $("#codeSpace").text(`<line x1='${ $(`#${textID[2]}`).val() }' x2='${ $(`#${textID[4]}`).val() }' y1='${ $(`#${textID[3]}`).val() }' y2='${ $(`#${textID[5]}`).val() }' style="stroke:#000; stroke-width: 2px;" />`);
+                $("#artSpace").html(`<line x1='${ $("#logicSpace input:nth-child(3)").val() }' y1='${ $("#logicSpace input:nth-child(4)").val() }' x2='${ $("#logicSpace input:nth-child(5)").val() }' y2='${ $("#logicSpace input:nth-child(6)").val() }' style="stroke:#000; stroke-width: 2px;" />`);
+                $("#codeSpace").text(`<line x1='${ $("#logicSpace input:nth-child(3)").val() }' y1='${ $("#logicSpace input:nth-child(4)").val() }' x2='${ $("#logicSpace input:nth-child(5)").val() }' y2='${ $("#logicSpace input:nth-child(6)").val() }' style="stroke:#000; stroke-width: 2px;" />`);
             };
             
 
