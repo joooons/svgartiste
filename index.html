@@ -55,16 +55,20 @@
             #codeSpace {
                 height: 100px;
                 padding: 10px;
+                font-size: 8pt;
             }
 
             #logicSpace {
                 display: flex;
                 justify-content: flex-start;
+                align-items: center;
+                white-space: pre;
             }
 
             #logicSpace > div, input {
                 background-color: rgb(218, 218, 218);
-                margin: 10px 0px 10px 10px;
+                margin: 10px 15px 10px 5px;
+                min-width: 100px;
             }
 
             .text {
@@ -115,13 +119,50 @@
 
         <script>
 
-            $("#logicSpace").append("<div id='AA'>first haha</div>");
-            $("#logicSpace").append("<div id='BB'>second haha</div>");
+            var textID = ['AA', 'BB', 'X1'];
+                // it kind of doesn't matter what I name these, by the way...
 
-            $("#logicSpace").append("<input id='CC' placeholder='what'/>");
-            $("#CC").on("change", function() {
-                $("#codeSpace").text( $("#CC").val() );
+
+            $("#logicSpace").append(`   ${textID[0]}`);
+            $("#logicSpace").append(`<div id='${textID[0]}'>first</div>`);
+            $("#logicSpace").append(`${textID[1]}`);
+            $("#logicSpace").append(`<div id='${textID[1]}'>second</div>`);
+            $("#logicSpace").append(`${textID[2]}`);
+            $("#logicSpace").append(`<input id='${textID[2]}' placeholder='what'/>`);
+                // The elements are added to the logicSpace
+
+            // $(`#${textID[1]}`).append("<div><div>one</div><div>two</div><div>three</div></div>");
+            $(`#${textID[1]}`).append("<div></div>");
+            $(`#${textID[1]} > div`).append("<div> 1 </div>");
+            $(`#${textID[1]} > div`).append("<div> 2 </div>");
+            $(`#${textID[1]} > div`).append("<div> 3 </div>");
+
+
+            $(`#${textID[1]} > div`).hide();
+                // added "menu" items to the second div. This will be a drop menu.
+
+            $(`#${textID[1]}`).on("click", function() {
+                $(`#${textID[1]} > div`).slideToggle(300);
             });
+                // This toggles the "drop menu"
+
+
+            $(`#${textID[2]}`).on("change", function() {
+                
+                $("#codeSpace").text( $(`#${textID[2]}`).val() );
+
+                if ( /^\d+$/.test( $(`#${textID[2]}`).val() ) ) {
+                    // The regEx tests for whole numbers.
+                    $("#artSpace").html(`<line x1='${ $(`#${textID[2]}`).val() }' x2='100' y1='0' y2='100' style="stroke:#000; stroke-width: 2px;" />`);
+                    $("#codeSpace").text(`<line x1='${ $(`#${textID[2]}`).val() }' x2='100' y1='0' y2='100' style="stroke:#000; stroke-width: 2px;" />`);
+                };
+
+                
+                
+
+
+            });
+                // This makes the text go into the codeSpace
 
         </script>
 
