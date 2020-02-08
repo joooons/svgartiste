@@ -57,23 +57,32 @@
                 font-size: 8pt;
             }
 
-            #logicSpace {
+            #logicSpace > div {
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
                 white-space: pre;
             }
 
-            #logicSpace > div, input {
+            #logicSpace > div > div {
                 background-color: rgb(218, 218, 218);
-                margin: 10px 15px 10px 5px;
+                margin: 3px 15px 3px 5px;
                 min-width: 20px;
                 width: 40px;
             }
 
+            #logicSpace > div > input {
+                background-color: rgb(218, 218, 218);
+                margin: 3px 15px 3px 5px;
+                min-width: 20px;
+                width: 40px;
+                height: 10px;
+                font-size: 8pt;
+            }
+
             .text {
                 color: blue;
-
+                /* what is this doing here???? */
             }
 
         </style>
@@ -119,68 +128,91 @@
 
         <script>
 
-            $("#logicSpace").append(`   ID`);
-            $("#logicSpace").append(`<div>1</div>`);
-            $("#logicSpace").append(`type`);
-            $("#logicSpace").append(`<div>line</div>`);
-            $("#logicSpace").append(`x1`);
-            $("#logicSpace").append(`<input value='0' />`);
-            $("#logicSpace").append(`y1`);
-            $("#logicSpace").append(`<input value='0' />`);
-            $("#logicSpace").append(`x2`);
-            $("#logicSpace").append(`<input value='100' />`);
-            $("#logicSpace").append(`y2`);
-            $("#logicSpace").append(`<input value='100' />`);
-            $("#logicSpace").append("<button>+</button>");
+            var PH = [];
+                // What I call "place holder"
+                // I need to have more of these in order to create new lines
 
-                // The elements are added to the logicSpace
+            var num = 0;
+                // The index number of the row I'm working on right now.
 
-
-
-            // $("#logicSpace div:nth-child(2)").append("<div></div>");
-            // $("#logicSpace div:nth-child(2) > div").append("<div> 1 </div>");
-            // $("#logicSpace div:nth-child(2) > div").append("<div> 2 </div>");
-            // $("#logicSpace div:nth-child(2) > div").append("<div> 3 </div>");
-            // $("#logicSpace div:nth-child(2) > div").hide();
-                // Added "menu" items to the second div. This will be a drop menu.
-
-
-
-            $("#logicSpace div:nth-child(2)").on("click", function() {
-                $("#logicSpace div:nth-child(2) > div").slideToggle(300);
-            });
-                // This toggles the "drop menu"
-
-
-
-            $("#logicSpace input:nth-child(3)").on("change", function() { if (numberCheck()) updateSVG(); });
-            $("#logicSpace input:nth-child(4)").on("change", function() { if (numberCheck()) updateSVG(); });
-            $("#logicSpace input:nth-child(5)").on("change", function() { if (numberCheck()) updateSVG(); });
-            $("#logicSpace input:nth-child(6)").on("change", function() { if (numberCheck()) updateSVG(); });
-
-                // EVENT: on click
+            Populate();
 
 
 
             // --- FUNCTIONS ---
 
+            function Populate() {
+                // This can only ADD, never subtract.
+
+                PH.push(`gibberishgoobly${PH.length}`);    
+
+                $("#logicSpace").append(`<div id="${PH[num]}"></div>`);
+                $(`#${PH[num]}`).append(`   ID`);
+                $(`#${PH[num]}`).append(`<div>1</div>`);
+                $(`#${PH[num]}`).append(`type`);
+                $(`#${PH[num]}`).append(`<div>line</div>`);
+                $(`#${PH[num]}`).append(`x1`);
+                $(`#${PH[num]}`).append(`<input value='0' />`);
+                $(`#${PH[num]}`).append(`y1`);
+                $(`#${PH[num]}`).append(`<input value='0' />`);
+                $(`#${PH[num]}`).append(`x2`);
+                $(`#${PH[num]}`).append(`<input value='100' />`);
+                $(`#${PH[num]}`).append(`y2`);
+                $(`#${PH[num]}`).append(`<input value='100' />`);
+                $(`#${PH[num]}`).append("<button>+</button>");
+                    // The elements are added to the logicSpace
+
+                $(`#${PH[num]} input:nth-child(3)`).on("change", function() { if (numberCheck()) updateSVG(); });
+                $(`#${PH[num]} input:nth-child(4)`).on("change", function() { if (numberCheck()) updateSVG(); });
+                $(`#${PH[num]} input:nth-child(5)`).on("change", function() { if (numberCheck()) updateSVG(); });
+                $(`#${PH[num]} input:nth-child(6)`).on("change", function() { if (numberCheck()) updateSVG(); });
+                    // EVENT: on click
+
+                $(`#${PH[num]} button`).on("click", function() {
+                    // alert("okay then");
+                    $(`#${PH[num]} button`).hide();
+                    num++;
+                    Populate();
+                });
+                    // What happens when you click on the button?
+
+            }
+
+
 
             function numberCheck() {
                 let a = true;
-                if ( /\D/.test( $("#logicSpace input:nth-child(3)").val() ) ) a = false;
-                if ( /\D/.test( $("#logicSpace input:nth-child(4)").val() ) ) a = false;
-                if ( /\D/.test( $("#logicSpace input:nth-child(5)").val() ) ) a = false;
-                if ( /\D/.test( $("#logicSpace input:nth-child(6)").val() ) ) a = false;
+                if ( /\D/.test( $(`#${PH[num]} input:nth-child(3)`).val() ) ) a = false;
+                if ( /\D/.test( $(`#${PH[num]} input:nth-child(4)`).val() ) ) a = false;
+                if ( /\D/.test( $(`#${PH[num]} input:nth-child(5)`).val() ) ) a = false;
+                if ( /\D/.test( $(`#${PH[num]} input:nth-child(6)`).val() ) ) a = false;
                 // alert(a);
                 return a;
             }
 
             function updateSVG() {
-                $("#artSpace").html(`<line x1='${ $("#logicSpace input:nth-child(3)").val() }' y1='${ $("#logicSpace input:nth-child(4)").val() }' x2='${ $("#logicSpace input:nth-child(5)").val() }' y2='${ $("#logicSpace input:nth-child(6)").val() }' style="stroke:#000; stroke-width: 2px;" />`);
-                $("#codeSpace").text(`<line x1='${ $("#logicSpace input:nth-child(3)").val() }' y1='${ $("#logicSpace input:nth-child(4)").val() }' x2='${ $("#logicSpace input:nth-child(5)").val() }' y2='${ $("#logicSpace input:nth-child(6)").val() }' style="stroke:#000; stroke-width: 2px;" />`);
+
+                let tempStr = ' ';
+                $("#codeSpace").text('');
+
+                for ( i=0 ; i<=num ; i++) {
+                    let a = $(`#${PH[i]} input:nth-child(3)`).val();
+                    let b = $(`#${PH[i]} input:nth-child(4)`).val();
+                    let c = $(`#${PH[i]} input:nth-child(5)`).val();
+                    let d = $(`#${PH[i]} input:nth-child(6)`).val();
+
+                    // alert(`line ${i} is ${a} ${b} ${c} ${d} wow`);
+
+                    tempStr += `<line x1='${a}' y1='${b}' x2='${c}' y2='${d}' style="stroke:#000; stroke-width: 2px;" />`;
+                    // alert(tempStr);
+                }
+
+                // $("#codeSpace").text(`<line x1='${ $("#logicSpace input:nth-child(3)").val() }' y1='${ $("#logicSpace input:nth-child(4)").val() }' x2='${ $("#logicSpace input:nth-child(5)").val() }' y2='${ $("#logicSpace input:nth-child(6)").val() }' style="stroke:#000; stroke-width: 2px;" />`);
+                $("#codeSpace").text(tempStr);
+                $("#artSpace").html(tempStr);
             };
             
-
+            
 
             
             // This makes the text go into the codeSpace
