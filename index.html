@@ -19,6 +19,20 @@
 
         <style>
 
+                /* Chrome, Safari, Edge, Opera */
+                input[type=number]::-webkit-inner-spin-button, 
+                input[type=number]::-webkit-outer-spin-button { 
+                    -webkit-appearance: none; 
+                    margin: 0; 
+                }
+
+                /* Firefox */
+                input[type=number] {
+                    -moz-appearance:textfield;
+                }
+
+
+
             body {
                 font-family: 'Roboto Mono', monospace;
                 font-size: 8pt;
@@ -36,7 +50,7 @@
                 background-color: #D0D0D0;
                 /* padding: 10px; */
                 margin: 10px 5px 10px 5px;
-                width: 40%;
+                width: 45%;
                 display: flex;
                 flex-flow: column wrap;
                 /* align-items: stretch; */
@@ -68,16 +82,21 @@
                 background-color: #DDD;
                 margin: 3px 15px 3px 5px;
                 min-width: 20px;
-                width: 40px;
+                width: 20px;
             }
 
             #logicSpace > div > input {
                 background-color: #DDD;
                 margin: 3px 15px 3px 5px;
                 min-width: 20px;
-                width: 50px;
+                width: 33px;
                 height: 10px;
                 font-size: 8pt;
+            }
+
+            #logicSpace > div > button {
+                width: 30px;
+                font-size: 10pt;
             }
 
             .text {
@@ -123,6 +142,7 @@
             </div>
 
         </div>
+
 
 
         <script src="code.js">
