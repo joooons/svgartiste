@@ -30,6 +30,7 @@
                 input[type=number] {
                     -moz-appearance:textfield;
                 }
+                    /* The above two sections eliminate the number scroller for number input elements */
 
 
 
@@ -46,24 +47,37 @@
                 justify-content: center;
             }
 
-            .half {
+            .left {
                 background-color: #D0D0D0;
                 /* padding: 10px; */
                 margin: 10px 5px 10px 5px;
-                width: 45%;
+                width: 50%;
                 display: flex;
                 flex-flow: column wrap;
                 /* align-items: stretch; */
             }
 
-            .half > div {
+            .left > div {
                 background-color: white;
                 overflow-y: auto;
             }
             
-            .half > svg {
+     
+
+            .right {
+                background-color: #D0D0D0;
+                /* padding: 10px; */
+                margin: 10px 5px 10px 5px;
+                width: 40%;
+                display: flex;
+                flex-flow: column wrap;
+                /* align-items: stretch; */
+            }
+            
+            .right > svg {
                 margin: 10px;
             }
+
 
             #codeSpace {
                 height: 100px;
@@ -112,7 +126,7 @@
 
         <div class='container'>
             
-            <div class='half'>
+            <div class='left'>
             <!-- the LEFT half -->
 
                 <div id='codeSpace'>
@@ -132,7 +146,7 @@
 
             </div>
 
-            <div class='half'>
+            <div class='right'>
                 <!-- the RIGHT half -->
                 
                 <svg width='500' height='500' style='background-color: #FFF;' id='artSpace'>

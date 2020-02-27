@@ -46,10 +46,12 @@
         // DO I REALLY NEED THIS???
 
     var init = {
-        line : { x1:0, y1:0, x2:400, y2:400, stroke:"black" },
-        rect : { x:200, y:200, width:20, height:20 }
+        line : { x1:0, y1:0, x2:400, y2:400, stroke:"black", width:20, linecap:'round' },
+        rect : { x:200, y:200, width:100, height:100, color:"yellow", rx:5, linewidth:2, linecolor:'black' },
+        circle : { cx:100, cy:100, r:50, fill:"red", linewidth:4, linecolor:"black" }
         }
-
+        // Am I even using this yet? Will I need this later?
+        // Could this be helpful to make this scalable in the end?
     
 
 
@@ -80,12 +82,10 @@ function Initiate() {
     
     $(`#type-${pointer.max}`).on("change", function() { 
         
-        if ( /^line$|^rect$/.test( $(this).val() ) ) {
+        if ( /^line$|^rect$|^circle$/.test( $(this).val() ) ) {
             $(this).attr("disabled", true);
             Populate( $(this).val() );
         }
-
-
 
     });
 
@@ -117,8 +117,14 @@ function Populate(svgType) {
             $(`#elem${pointer.max}`).append(`<input value='${init.line.x2}' type='number' id="x2-${pointer.max}" />`);
             $(`#elem${pointer.max}`).append(`y2`);
             $(`#elem${pointer.max}`).append(`<input value='${init.line.y2}' type='number' id="y2-${pointer.max}" />`);
-            $(`#elem${pointer.max}`).append(`st`);
+            $(`#elem${pointer.max}`).append(`co`);
             $(`#elem${pointer.max}`).append(`<input value='${init.line.stroke}' id="stroke-${pointer.max}" />`);
+            $(`#elem${pointer.max}`).append(`w `);
+            $(`#elem${pointer.max}`).append(`<input value='${init.line.width}' type='number' id="width-${pointer.max}" />`);
+            $(`#elem${pointer.max}`).append(`ca`);
+            $(`#elem${pointer.max}`).append(`<input value='${init.line.linecap}' id="linecap-${pointer.max}" />`);
+            $(`#elem${pointer.max}`).append(`--`);
+            $(`#elem${pointer.max}`).append(`<input value='' id="dummy-${pointer.max}" disabled/>`);
             $(`#elem${pointer.max}`).append("<button>+</button>");
             updateSVG();
             break;
@@ -131,6 +137,37 @@ function Populate(svgType) {
             $(`#elem${pointer.max}`).append(`<input value='${init.rect.width}' type='number' id="w-${pointer.max}" />`);
             $(`#elem${pointer.max}`).append(`h `);
             $(`#elem${pointer.max}`).append(`<input value='${init.rect.height}' type='number' id="h-${pointer.max}" />`);
+            $(`#elem${pointer.max}`).append(`co`);
+            $(`#elem${pointer.max}`).append(`<input value='${init.rect.color}' id="color-${pointer.max}" />`);
+            $(`#elem${pointer.max}`).append(`rx`);
+            $(`#elem${pointer.max}`).append(`<input value='${init.rect.rx}' type='number' id="rx-${pointer.max}" />`);
+            $(`#elem${pointer.max}`).append(`lw`);
+            $(`#elem${pointer.max}`).append(`<input value='${init.rect.linewidth}' type='number' id="linewidth-${pointer.max}" />`);
+            $(`#elem${pointer.max}`).append(`lc`);
+            $(`#elem${pointer.max}`).append(`<input value='${init.rect.linecolor}' id="linecolor-${pointer.max}" />`);
+            $(`#elem${pointer.max}`).append("<button>+</button>");
+            updateSVG();
+            break;
+        case "circle":
+            $(`#elem${pointer.max}`).append(`cx`);
+            $(`#elem${pointer.max}`).append(`<input value='${init.circle.cx}' type='number' id="cx-${pointer.max}" />`);
+            $(`#elem${pointer.max}`).append(`cy`);
+            $(`#elem${pointer.max}`).append(`<input value='${init.circle.cy}' type='number' id="cy-${pointer.max}" />`);
+            $(`#elem${pointer.max}`).append(`r `);
+            $(`#elem${pointer.max}`).append(`<input value='${init.circle.r}' type='number' id="r-${pointer.max}" />`);
+
+            $(`#elem${pointer.max}`).append(`co`);
+            $(`#elem${pointer.max}`).append(`<input value='${init.circle.fill}' id="fill-${pointer.max}" />`);
+            $(`#elem${pointer.max}`).append(`lw`);
+            $(`#elem${pointer.max}`).append(`<input value='${init.circle.linewidth}' type='number' id="linewidth-${pointer.max}" />`);
+            $(`#elem${pointer.max}`).append(`lc`);
+            $(`#elem${pointer.max}`).append(`<input value='${init.circle.linecolor}' id="linecolor-${pointer.max}" />`);
+            
+            $(`#elem${pointer.max}`).append(`--`);
+            $(`#elem${pointer.max}`).append(`<input value='0' id="dummy-${pointer.max}" disabled/>`);
+            $(`#elem${pointer.max}`).append(`--`);
+            $(`#elem${pointer.max}`).append(`<input value='0' id="dummy-${pointer.max}" disabled/>`);
+
             $(`#elem${pointer.max}`).append("<button>+</button>");
             updateSVG();
             break;
@@ -212,18 +249,17 @@ function updateSVG() {
         switch ( $(`#elem${i} input:nth-child(2)`).val() ) {
         // switch (b) {
             case "line":
-                // tempStr += `<line x1='${a[0]}' y1='${a[1]}' x2='${a[2]}' y2='${a[3]}' style="stroke:#000; stroke-width: 2px;" />`;    
-                tempStr += `<line x1='${a[0]}' y1='${a[1]}' x2='${a[2]}' y2='${a[3]}' style="stroke:${a[4]}; stroke-width: 2px;" />`;    
+                tempStr += `<line x1='${a[0]}' y1='${a[1]}' x2='${a[2]}' y2='${a[3]}' style="stroke:${a[4]}; stroke-width: ${a[5]}px; stroke-linecap: ${a[6]}; " />`;    
                 break;
             case "rect":
-                tempStr += `<rect x='${a[0]}' y='${a[1]}' width='${a[2]}' height='${a[3]}' style="stroke:#000; stroke-width: 2px;" />`;
+                tempStr += `<rect x='${a[0]}' y='${a[1]}' width='${a[2]}' height='${a[3]}' style="fill:${a[4]};stroke-width:${a[6]} ;stroke:${a[7]}" rx='${a[5]}' />`;
+                break;
+            case "circle":
+                tempStr += `<circle cx='${a[0]}' cy='${a[1]}' r='${a[2]}' fill='${a[3]}' stroke-width='${a[4]}' stroke='${a[5]}' />`;
                 break;
             default:
                 break;
         }
-
-
-
 
 
 
@@ -260,7 +296,6 @@ function loadEvents() {
     art.on("click", function(ev) {
         // When the mouse clicks on artSpace, enter the coordinate position into the focused <input>
         
-        
 
         if ( /^x+/.test(pointer.id) ) {
             $(`#${pointer.id}`).val(ev.pageX - art.offset().left);
@@ -283,8 +318,6 @@ function loadEvents() {
 
     });
 
-    
-
 
 
 }
@@ -297,7 +330,6 @@ function loadEvents() {
 // -------------------- RUNNING THE CODE -------------------- //
 
 
-// Populate();
 Initiate();
 loadEvents();
 
