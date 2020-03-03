@@ -9,14 +9,10 @@
 // -------------------- DECLARATIONS -------------------- //
 
 
-    // var svgType = "what";
-        // This determines what SVG element to load.
-
-
     var pointer = {
         max : 0,
         num : 0,
-        id  : ""
+        id  : "does it matter what I set this as? Nope."
         };
 
 
@@ -51,7 +47,7 @@ function Initiate() {
     $(`#elem${pointer.max}`).append(`<div class='filler'>type</div><input value='what' type='text' id='tp${pointer.max}' />`);
 
 
-    $(`#tp${pointer.max}`).on("focus", function() { $(this).css("background-color", "#ADF"); });
+    $(`#tp${pointer.max}`).on("focus", function() { $(this).css("background-color", "#DEF"); });
 
 
     $(`#tp${pointer.max}`).on("change", function() {     
@@ -134,20 +130,17 @@ function Populate(svgType) {
         // alert(`${i} : ${$(`#elem${pointer.max} input:nth-child(${i})`).val()  }`);
 
 
-        $(`#elem${pointer.max} input:nth-child(${i})`).on("change", function() { 
-            updateSVG(); });
+        $(`#elem${pointer.max} input:nth-child(${i})`).on("change", function() { updateSVG(); });
 
         $(`#elem${pointer.max} input:nth-child(${i})`).on("focus", function() { 
             $(this).css("background-color", "#ADF");
             pointer.id = $(this).attr("id");  
-
             pointer.num = $(this).siblings().eq(1).val();
-            code.text(pointer.num);
+            // code.text(pointer.num);
+        });
 
-            });
+        $(`#elem${pointer.max} input:nth-child(${i})`).on("focusout", function() { $(this).css("background-color", "#DEF"); });
 
-        $(`#elem${pointer.max} input:nth-child(${i})`).on("focusout", function() { 
-            $(this).css("background-color", "#DDD");  });
 
     }   // End of for
 
@@ -193,7 +186,7 @@ function updateSVG() {
         // Iterating through the number of lines. 
         // The variable 'i' represents the line id.
 
-        let b = $(`#elem${i} > `).length;
+        // let b = $(`#elem${i} > `).length;
 
         // for ( let j=3 ; j<b ; j++ ) {
         for ( let j=6 ; j<=$(`#elem${i} > `).length ; j+=2 ) {
@@ -227,10 +220,8 @@ function updateSVG() {
 
     
     code.text(tempStr);
-        // The total string is inserted into the codeSpace.
-    
     art.html(tempStr);
-        // The total string is inserted into the artSpace.
+        // The total string is inserted into codeSpace and artSpace.
 
 };  // End of updateSVG()
 
@@ -239,43 +230,25 @@ function updateSVG() {
 function loadEvents() {
     // The function to contain eventlisteners for whatever wasn't covered already.
 
-
-    art.on("mousemove", function(ev) {
-        // When the mouse is over artSpace, display the coordinates in codeSpace
-
-        let a = ev.pageX - art.offset().left;
-        let b = ev.pageY - art.offset().top;
-        code.html(`x:${a}   y:${b} `);
-
-    });
-
+    art.on("click", function(ev) { $(`#${pointer.id}`).focus(); });
 
     art.on("click", function(ev) {
         // When the mouse clicks on artSpace, enter the coordinate position into the focused <input>
         
 
-        if ( /^x+/.test(pointer.id) ) {
-            $(`#${pointer.id}`).val(ev.pageX - art.offset().left);
-        }
+        if ( /^x+/.test(pointer.id) ) { $(`#${pointer.id}`).val(ev.pageX - art.offset().left); }
 
-        if ( /^y+/.test(pointer.id) ) {
-            $(`#${pointer.id}`).val(ev.pageY - art.offset().top);
-        }
+        if ( /^y+/.test(pointer.id) ) { $(`#${pointer.id}`).val(ev.pageY - art.offset().top); }
 
-        if ( /^w+/.test(pointer.id) ) {            
-            $(`#${pointer.id}`).val(ev.pageX - art.offset().left - $(`#x-${pointer.num}`).val() );
-        }
+        if ( /^w+/.test(pointer.id) ) { $(`#${pointer.id}`).val(ev.pageX - art.offset().left - $(`#x-${pointer.num}`).val() ); }
 
-        if ( /^h+/.test(pointer.id) ) {
-            $(`#${pointer.id}`).val(ev.pageY - art.offset().top - $(`#y-${pointer.num}`).val() );
-        }
+        if ( /^h+/.test(pointer.id) ) { $(`#${pointer.id}`).val(ev.pageY - art.offset().top - $(`#y-${pointer.num}`).val() ); }
 
         if ( /^r-/.test(pointer.id) ) {
             let a = Math.abs( ev.pageX - art.offset().left - $(`#x-${pointer.num}`).val() );
             let b = Math.abs( ev.pageY - art.offset().top - $(`#y-${pointer.num}`).val() );
             $(`#${pointer.id}`).val( Math.max(a,b) );
         }
-
 
 
         updateSVG();
