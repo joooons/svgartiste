@@ -25,13 +25,13 @@
                     -webkit-appearance: none; 
                     margin: 0; 
                 }
+                    /* The above two sections eliminate the number scroller for number input elements */
 
                 /* Firefox */
                 input[type=number] {
                     -moz-appearance:textfield;
                 }
                     /* The above two sections eliminate the number scroller for number input elements */
-
 
 
             body {
@@ -89,28 +89,49 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                white-space: pre;
+                white-space: pre-wrap;
             }
 
-            #logicSpace > div > div {
-                background-color: #DDD;
-                margin: 3px 15px 3px 5px;
-                min-width: 20px;
-                width: 20px;
+            #logicSpace div div {
+                /* background-color: #DDD; */
+                margin: 3px 2px 3px 3px;
+                min-width: 5px;
+                text-align: right;
+                /* text-align: center; */
+                /* width: 20px; */
             }
 
-            #logicSpace > div > input {
+            #logicSpace div input {
                 background-color: #DDD;
-                margin: 3px 15px 3px 5px;
-                min-width: 20px;
-                width: 33px;
-                height: 10px;
+                /* background-color: tomato; */
+                margin: 3px 7px 3px 0px;
+                /* min-width: 20px; */
+                width: 35px;
+                height: 12px;
                 font-size: 8pt;
+                border-width: 0px 0px 0px 0px;
+                text-align: center;
             }
+
+            #logicSpace div .dummy {
+                background: transparent;
+                /* background-color: tomato; */
+                border-width: 0px 0px 0px 0px;
+            }
+
+            #logicSpace div .filler {
+                /* background-color:#CCC; */
+                background: transparent;
+                min-width: 20px;
+            }
+
 
             #logicSpace > div > button {
                 width: 30px;
+                height: 20px;
                 font-size: 10pt;
+                font-weight: bold;
+                text-align: center;
             }
 
             .text {
@@ -137,6 +158,7 @@
                 </div>
                 
                 <br>
+            
 
                 <div id='logicSpace'>
                 <!-- logicSpace -->
