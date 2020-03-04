@@ -39,12 +39,19 @@ function Initiate() {
     // This function loads a new line, but the SVG type has not been identified yet.
     // The user will have to specify whether this element is a line, rect, or circle.
 
+    function fl(str) { return `<div class='filler'>${str}</div>`; };
 
     logic.append(`<div id="elem${pointer.max}"></div>`);
 
 
-    $(`#elem${pointer.max}`).append(`<div class='filler'>ID</div><input value='${pointer.max}' type='number' id='id${pointer.max}' disabled/>`);
-    $(`#elem${pointer.max}`).append(`<div class='filler'>type</div><input value='what' type='text' id='tp${pointer.max}' />`);
+    $(`#elem${pointer.max}`).append(`${fl('ID')}<input value='${pointer.max}' type='number' id='id${pointer.max}' disabled/>`);
+    // $(`#elem${pointer.max}`).append(`${fl('type')}<input value='what' type='text' id='tp${pointer.max}' />`);
+
+    let a = "<option value='none'>none</option>";
+    a += "<option value='line'>line</option>";
+    a += "<option value='rect'>rect</option>";
+    a += "<option value='circle'>circle</option>";
+    $(`#elem${pointer.max}`).append(`${fl('type')}<select value='none' id='tp${pointer.max}' >${a}</select>`);   
 
 
     $(`#tp${pointer.max}`).on("focus", function() { $(this).css("background-color", "#DEF"); });
@@ -52,8 +59,13 @@ function Initiate() {
 
     $(`#tp${pointer.max}`).on("change", function() {     
         if ( /^line$|^rect$|^circle$/.test( $(this).val() ) ) {
+            
             $(this).attr("disabled", true);
             Populate( $(this).val() );
+            // Populate( $('#tp0').val() );
+            // alert('did this work?');
+            // alert($(this).val());
+            
         }
     });
 
@@ -61,9 +73,11 @@ function Initiate() {
     $(`#tp${pointer.max}`).on("click", function() {
         // This is for the drop menu.
         // Use this later!!!
+
         let a = $(this).parent().attr("id");
-        alert(a);
-        $(`#${a}`).append(`<div position> why </div>  `);
+        // alert(a);
+        // $(`#${a}`).append(`<div position> why </div>  `);
+
     });
 
 
@@ -127,9 +141,6 @@ function Populate(svgType) {
 
     for ( let i = 6; i <= $(`#elem${pointer.max} > `).length ;  i+=2 ) {
 
-        // alert(`${i} : ${$(`#elem${pointer.max} input:nth-child(${i})`).val()  }`);
-
-
         $(`#elem${pointer.max} input:nth-child(${i})`).on("change", function() { updateSVG(); });
 
         $(`#elem${pointer.max} input:nth-child(${i})`).on("focus", function() { 
@@ -153,7 +164,7 @@ function Populate(svgType) {
 
         // $(this).hide();
         if ( $(this).text() == '+' ) {
-            $(this).text('-');
+            $(this).text('x');
             pointer.max++;
             Initiate();
         }
@@ -162,6 +173,16 @@ function Populate(svgType) {
 
 
 }   // End of Populate()
+
+
+
+
+
+function unPopulate() {
+
+
+
+}
 
 
 
@@ -176,29 +197,26 @@ function PopUp() {
 
 function updateSVG() {
 
-    let tempStr = ' ';
+    let tempStr = '';
     let a = [];
 
-    code.text('');
+    code.text(tempStr);
         // Clear the codeSpace to make room for new string.
 
     for ( let i=0 ; i<=pointer.max ; i++ ) {
         // Iterating through the number of lines. 
         // The variable 'i' represents the line id.
 
-        // let b = $(`#elem${i} > `).length;
-
-        // for ( let j=3 ; j<b ; j++ ) {
         for ( let j=6 ; j<=$(`#elem${i} > `).length ; j+=2 ) {
             // Iterating through the number of parameters for line 'i'.
             // If the element is a line, then there are four parameters: x1, y1, x2, and y2.
             // So, there are four parameters, iterated through 'j' going from 3 to 6.
 
             a.push( $(`#elem${i} input:nth-child(${j})`).val() );
+            
         }
 
-
-        switch ( $(`#elem${i} input:nth-child(4)`).val() ) {
+        switch ( $(`#tp${i}`).val() ) {
             case "line":
                 tempStr += `<line x1='${a[0]}' y1='${a[1]}' x2='${a[2]}' y2='${a[3]}' style="stroke:${a[6]}; stroke-width: ${a[5]}px; stroke-linecap: ${a[7]}; " />`;    
                 break;
