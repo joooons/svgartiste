@@ -62,9 +62,6 @@ function Initiate() {
             
             $(this).attr("disabled", true);
             Populate( $(this).val() );
-            // Populate( $('#tp0').val() );
-            // alert('did this work?');
-            // alert($(this).val());
             
         }
     });
@@ -146,7 +143,7 @@ function Populate(svgType) {
         $(`#elem${pointer.max} input:nth-child(${i})`).on("focus", function() { 
             $(this).css("background-color", "#ADF");
             pointer.id = $(this).attr("id");  
-            pointer.num = $(this).siblings().eq(1).val();
+            pointer.num = $(this).siblings().eq(1).val();       // REMEMBER THIS!!! this might hurt later.
             // code.text(pointer.num);
         });
 
@@ -154,6 +151,20 @@ function Populate(svgType) {
 
 
     }   // End of for
+
+    $(`#co${pointer.max}`).on("change", function() {
+        
+        let a = $(this).val();
+        if ( /[a-f|0-9|A-F]{3}/.test(a) ) {
+            
+            a = a.match(/([a-f|0-9|A-F]{3})/)[1];
+
+            $(this).val(`#${a}`);
+        }
+        
+        updateSVG();
+
+    });
 
 
 
