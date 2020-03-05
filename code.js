@@ -63,13 +63,13 @@ function Initiate() {
     // This function loads a new line, but the SVG type has not been identified yet.
     // The user will have to specify whether this element is a line, rect, or circle.
 
-    logic.append(`<div></div>`);
+    logic.append(`<div class='row' ></div>`);
 
     function fl(str) { return `<div class='filler'>${str}</div>`; };
     let max = $('#logicSpace > div').length;
     let elem = $(`#logicSpace div:last-child`);
 
-    elem.append(`${fl('ID')}<input value='${max}' type='number' disabled/>`);
+    elem.append(`${fl('ID')}<input value='${max}' type='number' class="id-num" disabled/>`);
     
     let a = "<option value='none'>none</option><option value='line'>line</option><option value='rect'>rect</option><option value='circle'>circle</option>";
     elem.append(`${fl('type')}<select value='none' class='tp' >${a}</select>`);
@@ -99,10 +99,9 @@ function Populate(svgType) {
     // This can only ADD, never subtract.
 
     function fl(str) { return `<div class='filler'>${str}</div>`; };
-    let max = $('#logicSpace > div').length;
     
     let elem = `#logicSpace div:last-child`;
-
+    
 
     switch (svgType) {
         case "line":
@@ -125,7 +124,7 @@ function Populate(svgType) {
             $(elem).append(`${fl('co')}<input value='${init.rect.co}'               class='co'  />`);
             $(elem).append(`${fl('lw')}<input value='${init.rect.lw}' type='number'             />`);
             $(elem).append(`${fl('lc')}<input value='${init.rect.lc}'               class='co'  />`);
-            $(elem).append(`${fl('ra')}<input value='${init.rect.ra}' type='number' />`);
+            $(elem).append(`${fl('ra')}<input value='${init.rect.ra}' type='number'             />`);
             $(elem).append("<button>+</button>");
             updateSVG();
             break;
@@ -177,7 +176,13 @@ function Populate(svgType) {
         if ( $(this).text() == '+' ) {
             $(this).text('x');
             Initiate();
-        }
+        } else {
+            $(this).parent().remove();
+            for ( let i=1 ; i<=$('#logicSpace > div').length ; i++ ) { $(`#logicSpace div:nth-child(${i}) .id-num`).val(i); }
+            updateSVG();
+        }   // END of if
+
+
     });     // CLICK
 
 }   // End of Populate()
