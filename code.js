@@ -106,38 +106,38 @@ function Populate(svgType) {
 
     switch (svgType) {
         case "line":
-            $(elem).append(`${fl('x1')}<input value='${init.line.x1}' type='number' id="x1${max}" class='x' />`);
-            $(elem).append(`${fl('y1')}<input value='${init.line.y1}' type='number' id="y1${max}" class='y' />`);
-            $(elem).append(`${fl('x2')}<input value='${init.line.x2}' type='number' id="x2${max}" class='x' />`);
-            $(elem).append(`${fl('y2')}<input value='${init.line.y2}' type='number' id="y2${max}" class='y' />`);
-            $(elem).append(`${fl('  ')}<input value='' id="du${max}" class="dummy" disabled/>`);
-            $(elem).append(`${fl('lw')}<input value='${init.line.lw}' type='number' id="lw${max}" />`);
-            $(elem).append(`${fl('lc')}<input value='${init.line.lc}' id="lc${max}" class='co' />`);
-            $(elem).append(`${fl('ca')}<input value='${init.line.ca}' id="ca${max}" />`);
+            $(elem).append(`${fl('x1')}<input value='${init.line.x1}' type='number' class='x'               />`);
+            $(elem).append(`${fl('y1')}<input value='${init.line.y1}' type='number' class='y'               />`);
+            $(elem).append(`${fl('x2')}<input value='${init.line.x2}' type='number' class='x'               />`);
+            $(elem).append(`${fl('y2')}<input value='${init.line.y2}' type='number' class='y'               />`);
+            $(elem).append(`${fl('  ')}<input value=''                              class="dummy" disabled  />`);
+            $(elem).append(`${fl('lw')}<input value='${init.line.lw}' type='number'                         />`);
+            $(elem).append(`${fl('lc')}<input value='${init.line.lc}'               class='co'              />`);
+            $(elem).append(`${fl('ca')}<input value='${init.line.ca}'                                       />`);
             $(elem).append("<button>+</button>");
             updateSVG();
             break;
         case "rect":
-            $(elem).append(`${fl('x ')}<input value='${init.rect.x}' type='number' id="x-${max}" class='x' />`);
-            $(elem).append(`${fl('y ')}<input value='${init.rect.y}' type='number' id="y-${max}" class='y' />`);
-            $(elem).append(`${fl('w ')}<input value='${init.rect.w}' type='number' id="w-${max}" class='w' />`);
-            $(elem).append(`${fl('h ')}<input value='${init.rect.h}' type='number' id="h-${max}" class='h' />`);
-            $(elem).append(`${fl('co')}<input value='${init.rect.co}' id="co${max}" class='co' />`);
-            $(elem).append(`${fl('lw')}<input value='${init.rect.lw}' type='number' id="lw${max}" />`);
-            $(elem).append(`${fl('lc')}<input value='${init.rect.lc}' id="lc${max}" class='co' />`);
-            $(elem).append(`${fl('ra')}<input value='${init.rect.ra}' type='number' id="ra${max}" />`);
+            $(elem).append(`${fl('x ')}<input value='${init.rect.x}' type='number'  class='x'   />`);
+            $(elem).append(`${fl('y ')}<input value='${init.rect.y}' type='number'  class='y'   />`);
+            $(elem).append(`${fl('w ')}<input value='${init.rect.w}' type='number'  class='w'   />`);
+            $(elem).append(`${fl('h ')}<input value='${init.rect.h}' type='number'  class='h'   />`);
+            $(elem).append(`${fl('co')}<input value='${init.rect.co}'               class='co'  />`);
+            $(elem).append(`${fl('lw')}<input value='${init.rect.lw}' type='number'             />`);
+            $(elem).append(`${fl('lc')}<input value='${init.rect.lc}'               class='co'  />`);
+            $(elem).append(`${fl('ra')}<input value='${init.rect.ra}' type='number' />`);
             $(elem).append("<button>+</button>");
             updateSVG();
             break;
         case "circle":
-            $(elem).append(`${fl('x ')}<input value='${init.circle.x}' type='number' id="x-${max}" class='x' />`);
-            $(elem).append(`${fl('y ')}<input value='${init.circle.y}' type='number' id="y-${max}" class='y' />`);
-            $(elem).append(`${fl('r ')}<input value='${init.circle.r}' type='number' id="r-${max}" class='r' />`);
-            $(elem).append(`${fl('  ')}<input value='' id="du${max}" class='dummy' disabled/>`);
-            $(elem).append(`${fl('co')}<input value='${init.circle.co}' id="co${max}" class='co' />`);
-            $(elem).append(`${fl('lw')}<input value='${init.circle.lw}' type='number' id="lw${max}" />`);
-            $(elem).append(`${fl('lc')}<input value='${init.circle.lc}' id="lc${max}" class='co' />`);
-            $(elem).append(`${fl('  ')}<input value='' id="du-${max}" class='dummy' disabled/>`);
+            $(elem).append(`${fl('x ')}<input value='${init.circle.x}' type='number'    class='x'               />`);
+            $(elem).append(`${fl('y ')}<input value='${init.circle.y}' type='number'    class='y'               />`);
+            $(elem).append(`${fl('r ')}<input value='${init.circle.r}' type='number'    class='r'               />`);
+            $(elem).append(`${fl('  ')}<input value=''                                  class='dummy' disabled  />`);
+            $(elem).append(`${fl('co')}<input value='${init.circle.co}'                 class='co'              />`);
+            $(elem).append(`${fl('lw')}<input value='${init.circle.lw}' type='number'                           />`);
+            $(elem).append(`${fl('lc')}<input value='${init.circle.lc}'                 class='co'              />`);
+            $(elem).append(`${fl('  ')}<input value=''                                  class='dummy' disabled  />`);
             $(elem).append("<button>+</button>");
             updateSVG();
             break;
