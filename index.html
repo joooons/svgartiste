@@ -15,6 +15,7 @@
             <!-- loading some fonts -->
         <script src='https://code.jquery.com/jquery-3.4.1.js'></script>
             <!-- loading jQuery -->
+            
         <!-- <script src="https://cdn.jsdelivr.net/npm/@jaames/iro"></script> -->
             <!-- color picker iro.js -->
 
@@ -90,28 +91,29 @@
                 font-size: 8pt;
             }
 
-            #logicSpace > div {
+
+            /* #logicSpace > div { */
+            .row {
+                background-color: #7771;
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
                 white-space: pre-wrap;
-                /* height: 30px; */
+                user-select: none;
+                margin: 2px 0px 2px 0px;
             }
 
-            #logicSpace div div {
-                /* background-color: #DDD; */
+
+            .row > div {
                 margin: 3px 2px 3px 3px;
                 min-width: 5px;
                 text-align: right;
-                /* text-align: center; */
-                /* width: 20px; */
             }
 
-            #logicSpace div input {
+
+            .row input {
                 background-color: #DEF;
-                /* background-color: tomato; */
                 margin: 3px 7px 3px 0px;
-                /* min-width: 20px; */
                 width: 35px;
                 height: 12px;
                 font-size: 8pt;
@@ -119,20 +121,28 @@
                 text-align: center;
             }
 
-            #logicSpace div .dummy {
+            .row select {
+                background-color: #DEF;
+                margin: 3px 7px 3px 0px;
+                width: 50px;
+                height: 14px;
+                font-size: 8pt;
+                border-width: 0px 0px 0px 0px;
+                text-align: center;
+            }
+
+            .row .dummy {
                 background: transparent;
-                /* background-color: tomato; */
                 border-width: 0px 0px 0px 0px;
             }
 
-            #logicSpace div .filler {
-                /* background-color:#CCC; */
+            .row .filler {
                 background: transparent;
                 min-width: 20px;
             }
 
 
-            #logicSpace > div > button {
+            .row button {
                 width: 30px;
                 height: 20px;
                 font-size: 10pt;
@@ -140,10 +150,16 @@
                 text-align: center;
             }
 
-            .text {
-                color: blue;
-                /* what is this doing here???? */
+            .unselectable {
+                user-select: none;
             }
+
+            #otherSpace {
+                user-select: none;
+            }
+
+
+
 
         </style>
     </head>
@@ -175,7 +191,7 @@
                 <br>
 
                 <div id='otherSpace' >
-                    Well hellow there
+                    Nothing to see here. Move along.
                 </div>
 
             </div>

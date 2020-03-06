@@ -12,9 +12,9 @@
 
 
     var pointer = {
-        r   : 0,
-        c   : 0,
-        l   : 0
+        r   : 0,            // ROW
+        c   : 0             // COLUMN
+        // ,l   : 0
         };
 
 
@@ -23,7 +23,9 @@
         rect    : { x:0,    y:0,    w:100,      h:100,  co:'#daf',    lw:2,   lc:'#fda', ra:5        },
         circle  : { x:0,    y:0,    r:50,               co:'#adf',    lw:4,   lc:'#afd'              }
         }
-    
+            // co = color / lw = line width / lc = line color / ca = linecap / ra = radius
+
+
     var color = {
         shade : '#DAF',
         blank : '#DEF'
@@ -52,11 +54,18 @@
 
 
 
+
 function sel(row, col) { return $(`#logicSpace div:nth-child(${row}) input:nth-child(${col})`).val(); }
     // QUICK way to reference the element through row and col.
     // Do I use this anywhere else beside in updateSVG()?
 
 
+function reNumber() { 
+    for ( let i=1 ; i<=$('#logicSpace > div').length ; i++ ) { 
+        $(`#logicSpace > div:nth-child(${i}) .id-num`).val(i);
+        $(`#logicSpace > div:nth-child(${i})`).attr("id", `ln${i}`);
+    }  
+}
 
 
 function Initiate() {
@@ -66,22 +75,56 @@ function Initiate() {
     logic.append(`<div class='row' ></div>`);
 
     function fl(str) { return `<div class='filler'>${str}</div>`; };
+    function op(str) { return `<option value='${str}'>${str}</option>`; };
     let max = $('#logicSpace > div').length;
     let elem = $(`#logicSpace div:last-child`);
+    
+    
+
+    elem.attr("draggable", true);
+    elem.attr("id", `ln${max}`);
 
     elem.append(`${fl('ID')}<input value='${max}' type='number' class="id-num" disabled/>`);
-    
-    let a = "<option value='none'>none</option><option value='line'>line</option><option value='rect'>rect</option><option value='circle'>circle</option>";
-    elem.append(`${fl('type')}<select value='none' class='tp' >${a}</select>`);
-    
+    elem.append(`${fl('type')}<select value='none' class='tp' ></select>`);
+    $(`#logicSpace > div > select`).append(`${op('none')}${op('line')}${op('rect')}${op('circle')}`);
+
+
+    var targetID = '';
+
+    $(`.row`).on("dragstart", function(ev) {
+
+        console.clear();
+        let a = $(this).index() + 1;
+        let b = $(this).siblings().length + 1;
+        console.log('row : ' + a + ' of ' + b + ' rows, or in other words, number of rows : ' + $("#logicSpace > ").length );
+
+        if ( $(this).index() < $("#logicSpace > ").length -1 ) {
+            targetID = ev.target;
+            code.text(`dragging ${targetID.id}`);
+        } else {
+            ev.preventDefault();
+            console.log('unmovable');
+        }
+
+    });
+
+    $(`.row`).on("dragover", function(ev) {
+        ev.preventDefault();
+        code.text(`${targetID.id} is about to land on... ${ev.target.id}`);
+    });
+
+    $(`.row`).on("drop", function(ev) {
+        $(`#${targetID.id}`).insertBefore(ev.target);
+        code.text(`dropped ${targetID.id} before ${ev.target.id}`);
+        reNumber();
+        updateSVG();
+    });
+
+
 
     $('.tp').on("focus",    function() { $(this).css("background-color", color.shade); });
     $('.tp').on("focusout", function() { $(this).css("background-color", color.blank); });
-    $('.tp').on("change",   function() {     
-        $(this).attr("disabled", true);
-        Populate( $(this).val() );
-    });
-        // CHANGE
+    $('.tp').on("change",   function() { $(this).attr("disabled", true); Populate( $(this).val() ); });
 
 
 }   // END of Initiate()
@@ -101,7 +144,6 @@ function Populate(svgType) {
     function fl(str) { return `<div class='filler'>${str}</div>`; };
     
     let elem = `#logicSpace div:last-child`;
-    
 
     switch (svgType) {
         case "line":
@@ -143,7 +185,6 @@ function Populate(svgType) {
         default:
             break;
     }   // END of switch
-
     
     $(`${elem} input`).on("change", function() { updateSVG(); });
 
@@ -151,9 +192,6 @@ function Populate(svgType) {
         $(this).css("background-color", color.shade);
         pointer.c = $(this).index() + 1;
         pointer.r = $(this).parent().index() + 1;
-        pointer.l = $(this).siblings().length;
-        code.text(`row:${pointer.r}    col:${pointer.c}     length:${pointer.l}`);
-
     });
 
     $(`${elem} input`).on("focusout", function() { $(this).css("background-color", color.blank); });
@@ -168,17 +206,15 @@ function Populate(svgType) {
         updateSVG();
     });     // CHANGE
 
-    $(`${elem} button`).on("click", function() {
-        // When the PLUS button is clicked...
-        // (1) Hide the old button.
-        // (2) Create a new <div> for the next line.
 
+    $(`${elem} button`).on("click", function() {
+        // This BUTTON is for creating a new row AND deleting an existing row.
         if ( $(this).text() == '+' ) {
             $(this).text('x');
             Initiate();
         } else {
             $(this).parent().remove();
-            for ( let i=1 ; i<=$('#logicSpace > div').length ; i++ ) { $(`#logicSpace div:nth-child(${i}) .id-num`).val(i); }
+            reNumber();
             updateSVG();
         }   // END of if
 
@@ -214,6 +250,10 @@ function PopUp() {
 
 
 
+
+
+
+
 function updateSVG() {
     // Update codeSpace.
     // Update artSpace.
@@ -242,9 +282,12 @@ function updateSVG() {
 
     code.text(str);
     art.html(str);
-        // The total string is inserted into codeSpace and artSpace.
 
 };  // End of updateSVG()
+
+
+
+
 
 
 
@@ -252,9 +295,7 @@ function loadEvents() {
     // The function to contain eventlisteners for whatever wasn't covered already.
 
     art.on("click", function(ev) {
-        // When the mouse clicks on artSpace, enter the coordinate position into the focused <input>
 
-        code.text(`row ${pointer.r} and col ${pointer.c} and length is ${pointer.l}`);         
         let elem = $(`#logicSpace div:nth-child(${pointer.r}) input:nth-child(${pointer.c})`);
         elem.focus();
 
@@ -272,8 +313,6 @@ function loadEvents() {
 
     });
 
-
-
 }
 
 
@@ -281,11 +320,40 @@ function loadEvents() {
 
 
 
-// -------------------- RUNNING THE CODE -------------------- //
+function fillOtherSpace() {
+    
+    var targetID = '';
+    var other = $('#otherSpace');
 
+    other.append("<div id='a01' class='unselectable' >1 </div>");
+    other.append("<div id='a02' class='unselectable' >22 </div>");
+    other.append("<div id='a03' class='unselectable' >333 </div>");
+    other.children().css({ "background-color":"gray", "margin":"5px 5px 5px 5px", "width":"100px", "font-size":"20pt", "color":"yellow", "text-align":"center"   });
+    other.children().attr( "draggable", true );
+
+    let otherKids = $(`#otherSpace > `);
+
+    otherKids.on("dragstart", function(ev) { targetID = ev.target.id;  });
+    otherKids.on("dragover", function(ev) { ev.preventDefault();  });
+    otherKids.on("drop", function(ev) { $(`#${targetID}`).insertBefore(ev.target);  });
+
+}   //END of fillOtherSpace
+
+
+
+
+// ------------------------------------------------------ //
+// ------------------ RUNNING THE CODE ------------------ //
+// ------------------------------------------------------ //
 
 Initiate();
 loadEvents();
+
+// fillOtherSpace();
+    // This function is just a test.
+
+
+
 
 
 // -------------------- THE END -------------------- //
