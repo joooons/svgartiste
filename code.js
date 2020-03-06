@@ -77,48 +77,41 @@ function Initiate() {
     function fl(str) { return `<div class='filler'>${str}</div>`; };
     function op(str) { return `<option value='${str}'>${str}</option>`; };
     let max = $('#logicSpace > div').length;
-    let elem = $(`#logicSpace div:last-child`);
+    let elem = $(`#logicSpace > div:last-child`);
     
-    
-
     elem.attr("draggable", true);
     elem.attr("id", `ln${max}`);
 
     elem.append(`${fl('ID')}<input value='${max}' type='number' class="id-num" disabled/>`);
     elem.append(`${fl('type')}<select value='none' class='tp' ></select>`);
-    $(`#logicSpace > div > select`).append(`${op('none')}${op('line')}${op('rect')}${op('circle')}`);
-
+    $(`#logicSpace > div:last-child > select`).append(`${op('none')}${op('line')}${op('rect')}${op('circle')}`);
 
     var targetID = '';
-
     $(`.row`).on("dragstart", function(ev) {
-
-        console.clear();
-        let a = $(this).index() + 1;
-        let b = $(this).siblings().length + 1;
-        console.log('row : ' + a + ' of ' + b + ' rows, or in other words, number of rows : ' + $("#logicSpace > ").length );
-
-        if ( $(this).index() < $("#logicSpace > ").length -1 ) {
+        // ev.stopPropagation();
+        if ( $(this).index() < $(".row").length -1 ) {
             targetID = ev.target;
             code.text(`dragging ${targetID.id}`);
         } else {
             ev.preventDefault();
             console.log('unmovable');
         }
-
     });
 
     $(`.row`).on("dragover", function(ev) {
         ev.preventDefault();
-        code.text(`${targetID.id} is about to land on... ${ev.target.id}`);
+        // code.text(`${targetID.id} is about to land on... ${ev.target.id}`);
     });
 
     $(`.row`).on("drop", function(ev) {
+        // ev.stopPropagation();
         $(`#${targetID.id}`).insertBefore(ev.target);
-        code.text(`dropped ${targetID.id} before ${ev.target.id}`);
+        // code.text(`dropped ${targetID.id} before ${ev.target.id}`);
         reNumber();
         updateSVG();
     });
+
+    $(`.row >`).on("dragover", function(ev) { ev.stopPropagation(); } );
 
 
 
