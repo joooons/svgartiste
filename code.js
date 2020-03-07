@@ -17,17 +17,18 @@
         // ,l   : 0
         };
 
+    var gridStr = '';
 
     var init = {
-        line    : { x1:0,   y1:0,   x2:100,     y2:100,               lw:2,   lc:'#fad', ca:'round'  },
-        rect    : { x:0,    y:0,    w:100,      h:100,  co:'#daf',    lw:2,   lc:'#fda', ra:5        },
-        circle  : { x:0,    y:0,    r:50,               co:'#adf',    lw:4,   lc:'#afd'              }
+        line    : { x1:0,   y1:0,   x2:100,     y2:100,               lw:2,   lc:'#000', ca:'round'  },
+        rect    : { x:0,    y:0,    w:100,      h:100,  co:'#fd4',    lw:2,   lc:'#000', ra:5        },
+        circle  : { x:0,    y:0,    r:50,               co:'#7fd',    lw:2,   lc:'#000'              }
         }
             // co = color / lw = line width / lc = line color / ca = linecap / ra = radius
 
 
     var color = {
-        shade : '#DAF',
+        shade : '#ADF',
         blank : '#DEF'
     }
 
@@ -66,6 +67,31 @@ function reNumber() {
         $(`#logicSpace > div:nth-child(${i})`).attr("id", `ln${i}`);
     }  
 }
+
+
+function initiateSVGcontrols() {
+    $('#artCtrl').append("<div>grid? </div>");
+    // $('#artCtrl').append("<label>grid? </label>");
+    $('#artCtrl').append("<input id='chech' type='checkbox' value='wow' />");
+    $('#artCtrl input:nth-child(2)').on('click', function() {
+        let elem = $(this);
+        if ( elem.is(":checked") ) {
+            for ( let i=50 ; i<=500 ; i+=50 ) {
+                gridStr += `<line x1='0' y1='${i}' x2='500' y2='${i}' stroke='#0005' stroke-width='0.3px' stroke-linecap='round' stroke-dasharray='2, 2' />`;
+                gridStr += `<line x1='${i}' y1='0' x2='${i}' y2='500' stroke='#0005' stroke-width='0.3px' stroke-linecap='round' stroke-dasharray='2, 2' />`;
+            }
+            updateSVG();
+        } else {
+            gridStr = '';
+            updateSVG();
+        }
+
+    })
+
+}   // END of initiateSVGcontrols()
+
+
+
 
 
 function Initiate() {
@@ -148,7 +174,7 @@ function Populate(svgType) {
             $(elem).append(`${fl('lw')}<input value='${init.line.lw}' type='number'                         />`);
             $(elem).append(`${fl('lc')}<input value='${init.line.lc}'               class='co'              />`);
             $(elem).append(`${fl('ca')}<input value='${init.line.ca}'                                       />`);
-            $(elem).append("<button>+</button>");
+            $(elem).append("<button type='button' >+</button>");
             updateSVG();
             break;
         case "rect":
@@ -160,7 +186,7 @@ function Populate(svgType) {
             $(elem).append(`${fl('lw')}<input value='${init.rect.lw}' type='number'             />`);
             $(elem).append(`${fl('lc')}<input value='${init.rect.lc}'               class='co'  />`);
             $(elem).append(`${fl('ra')}<input value='${init.rect.ra}' type='number'             />`);
-            $(elem).append("<button>+</button>");
+            $(elem).append("<button type='button' >+</button>");
             updateSVG();
             break;
         case "circle":
@@ -172,7 +198,7 @@ function Populate(svgType) {
             $(elem).append(`${fl('lw')}<input value='${init.circle.lw}' type='number'                           />`);
             $(elem).append(`${fl('lc')}<input value='${init.circle.lc}'                 class='co'              />`);
             $(elem).append(`${fl('  ')}<input value=''                                  class='dummy' disabled  />`);
-            $(elem).append("<button>+</button>");
+            $(elem).append("<button type='button' >+</button>");
             updateSVG();
             break;
         default:
@@ -226,20 +252,6 @@ function Populate(svgType) {
 
 
 
-function unPopulate() {
-
-
-}
-
-
-
-
-function PopUp() {
-    // For use later, when I make pop-up drop menu
-
-
-}
-
 
 
 
@@ -259,10 +271,10 @@ function updateSVG() {
         switch ( $(`#logicSpace div:nth-child(${i}) select:first`).val() ) {
 
             case "line":
-                str += `<line x1='${sel(i,6)}' y1='${sel(i,8)}' x2='${sel(i,10)}' y2='${sel(i,12)}' style="stroke:${sel(i,18)}; stroke-width: ${sel(i,16)}px; stroke-linecap: ${sel(i,20)}; " />`;    
+                str += `<line x1='${sel(i,6)}' y1='${sel(i,8)}' x2='${sel(i,10)}' y2='${sel(i,12)}' stroke=${sel(i,18)} stroke-width='${sel(i,16)}px' stroke-linecap=${sel(i,20)} />`;    
                 break;
             case "rect":
-                str += `<rect x='${sel(i,6)}' y='${sel(i,8)}' width='${sel(i,10)}' height='${sel(i,12)}' style="fill:${sel(i,14)}; stroke-width:${sel(i,16)} ;stroke:${sel(i,18)}" rx='${sel(i,20)}' />`;
+                str += `<rect x='${sel(i,6)}' y='${sel(i,8)}' width='${sel(i,10)}' height='${sel(i,12)}' fill=${sel(i,14)} stroke-width=${sel(i,16)} stroke=${sel(i,18)} rx='${sel(i,20)}' />`;
                 break;
             case "circle":
                 str += `<circle cx='${sel(i,6)}' cy='${sel(i,8)}' r='${sel(i,10)}' fill='${sel(i,14)}' stroke-width='${sel(i,16)}' stroke='${sel(i,18)}' />`;
@@ -274,7 +286,7 @@ function updateSVG() {
     }   // END of for
 
     code.text(str);
-    art.html(str);
+    art.html(str + gridStr);
 
 };  // End of updateSVG()
 
@@ -313,24 +325,6 @@ function loadEvents() {
 
 
 
-function fillOtherSpace() {
-    
-    var targetID = '';
-    var other = $('#otherSpace');
-
-    other.append("<div id='a01' class='unselectable' >1 </div>");
-    other.append("<div id='a02' class='unselectable' >22 </div>");
-    other.append("<div id='a03' class='unselectable' >333 </div>");
-    other.children().css({ "background-color":"gray", "margin":"5px 5px 5px 5px", "width":"100px", "font-size":"20pt", "color":"yellow", "text-align":"center"   });
-    other.children().attr( "draggable", true );
-
-    let otherKids = $(`#otherSpace > `);
-
-    otherKids.on("dragstart", function(ev) { targetID = ev.target.id;  });
-    otherKids.on("dragover", function(ev) { ev.preventDefault();  });
-    otherKids.on("drop", function(ev) { $(`#${targetID}`).insertBefore(ev.target);  });
-
-}   //END of fillOtherSpace
 
 
 
@@ -341,10 +335,7 @@ function fillOtherSpace() {
 
 Initiate();
 loadEvents();
-
-// fillOtherSpace();
-    // This function is just a test.
-
+initiateSVGcontrols();
 
 
 

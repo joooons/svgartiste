@@ -50,7 +50,7 @@
                 /* width: 90%; */
                 display: flex;
                 flex-flow: row wrap;
-                justify-content: center;
+                justify-content: left;
             }
 
             .left {
@@ -68,22 +68,6 @@
                 overflow-y: auto;
             }
             
-     
-
-            .right {
-                background-color: #D0D0D0;
-                /* padding: 10px; */
-                margin: 10px 5px 10px 5px;
-                width: 40%;
-                display: flex;
-                flex-flow: column wrap;
-                /* align-items: stretch; */
-            }
-            
-            .right > svg {
-                margin: 10px;
-            }
-
 
             #codeSpace {
                 height: 100px;
@@ -92,7 +76,6 @@
             }
 
 
-            /* #logicSpace > div { */
             .row {
                 background-color: #7771;
                 display: flex;
@@ -136,8 +119,10 @@
                 border-width: 0px 0px 0px 0px;
             }
 
-            .row .filler {
+            /* .row .filler { */
+            .filler {
                 background: transparent;
+                /* background-color:blueviolet; */
                 min-width: 20px;
             }
 
@@ -156,6 +141,39 @@
 
             #otherSpace {
                 user-select: none;
+            }
+
+
+            .right {
+                background-color: #D0D0D0;
+                /* padding: 10px; */
+                margin: 10px 5px 10px 5px;
+                width: 40%;
+                display: flex;
+                flex-flow: column wrap;
+                /* align-items: stretch; */
+            }
+            
+            #artCtrl {
+                margin: 10px;
+                display: flex;
+                flex-flow: row wrap;
+            }
+
+            #artCtrl div {
+                height: 16px;
+                font-size: 8pt;
+            }
+
+            #artCtrl input {
+                width: 45px;
+                height: 16px;
+                font-size: 8pt;
+            }
+
+
+            .right > svg {
+                margin: 0px 10px 10px 10px;
             }
 
 
@@ -198,7 +216,8 @@
 
             <div class='right'>
                 <!-- the RIGHT half -->
-                
+                <div id='artCtrl'></div>
+
                 <svg width='500' height='500' style='background-color: #FFF;' id='artSpace'>
                     <!-- artSpace -->
     
