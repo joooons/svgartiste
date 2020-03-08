@@ -12,31 +12,79 @@
 
 
     var pointer = {
-        r   : 0,            // ROW
-        c   : 0             // COLUMN
-        // ,l   : 0
-        };
+        r   : 0,
+        c   : 0  };
 
-    var gridStr = '';
+
+    var svgStr = {
+        main    : "",
+        gridX   : "",
+        gridY   : "",
+        empty   : ""
+    };
+
+
+    var grid = {
+        xInc    : 50,
+        yInc    : 50,
+        xMax    : 500,
+        yMax    : 500,
+        width   : 0.3,
+        color   : '#000f',
+        dash    : '2, 2'
+    }
+
 
     var init = {
-        line    : { x1:0,   y1:0,   x2:100,     y2:100,               lw:2,   lc:'#000', ca:'round'  },
+        line    : { x1:0,   y1:0,   x2:200,     y2:200,               lw:2,   lc:'#000', ca:'round'  },
         rect    : { x:0,    y:0,    w:100,      h:100,  co:'#fd4',    lw:2,   lc:'#000', ra:5        },
-        circle  : { x:0,    y:0,    r:50,               co:'#7fd',    lw:2,   lc:'#000'              }
-        }
+        circle  : { x:0,    y:0,    r:50,               co:'#7fd',    lw:2,   lc:'#000'              }  }
             // co = color / lw = line width / lc = line color / ca = linecap / ra = radius
 
 
     var color = {
         shade : '#ADF',
-        blank : '#DEF'
-    }
-
+        blank : '#DEF'  }
 
 
     var code =  $('#codeSpace');
     var logic = $('#logicSpace');
     var art =   $('#artSpace');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------------------------------ //
+// ------------------- MINI-FUNCTIONS ------------------- //
+// ------------------------------------------------------ //
+
+
+function sel(row, col) { return $(`#logicSpace div:nth-child(${row}) input:nth-child(${col})`).val(); }
+    // QUICK way to reference the element through row and col.
+    // Do I use this anywhere else beside in updateSVG()?
+
+
+function reNumber() { 
+    for ( let i=1 ; i<=$('#logicSpace > div').length ; i++ ) { 
+        $(`#logicSpace > div:nth-child(${i}) .id-num`).val(i);
+        $(`#logicSpace > div:nth-child(${i})`).attr("id", `ln${i}`);  }  }
+
+
+
+
+
+
+
 
 
 
@@ -53,48 +101,79 @@
 
 
 
+function updateGridX() {
+    svgStr.gridX = '';
+    for ( let i=grid.xInc ; i<grid.xMax ; i+=grid.xInc ) {
+        svgStr.gridX += `<line x1='${i}' y1='0' x2='${i}' y2='${grid.yMax}' stroke='${grid.color}' stroke-width='${grid.width}px' stroke-linecap='butt' stroke-dasharray='${grid.dash}' />`;
+    }
+}   // END of updateGridX()
 
 
 
-function sel(row, col) { return $(`#logicSpace div:nth-child(${row}) input:nth-child(${col})`).val(); }
-    // QUICK way to reference the element through row and col.
-    // Do I use this anywhere else beside in updateSVG()?
-
-
-function reNumber() { 
-    for ( let i=1 ; i<=$('#logicSpace > div').length ; i++ ) { 
-        $(`#logicSpace > div:nth-child(${i}) .id-num`).val(i);
-        $(`#logicSpace > div:nth-child(${i})`).attr("id", `ln${i}`);
-    }  
-}
-
-
-function initiateSVGcontrols() {
-    $('#artCtrl').append("<div>grid? </div>");
-    // $('#artCtrl').append("<label>grid? </label>");
-    $('#artCtrl').append("<input id='chech' type='checkbox' value='wow' />");
-    $('#artCtrl input:nth-child(2)').on('click', function() {
-        let elem = $(this);
-        if ( elem.is(":checked") ) {
-            for ( let i=50 ; i<=500 ; i+=50 ) {
-                gridStr += `<line x1='0' y1='${i}' x2='500' y2='${i}' stroke='#0005' stroke-width='0.3px' stroke-linecap='round' stroke-dasharray='2, 2' />`;
-                gridStr += `<line x1='${i}' y1='0' x2='${i}' y2='500' stroke='#0005' stroke-width='0.3px' stroke-linecap='round' stroke-dasharray='2, 2' />`;
-            }
-            updateSVG();
-        } else {
-            gridStr = '';
-            updateSVG();
-        }
-
-    })
-
-}   // END of initiateSVGcontrols()
+function updateGridY() {
+    svgStr.gridY = '';
+    for ( let i=grid.yInc ; i<grid.yMax ; i+=grid.yInc ) {
+        svgStr.gridY += `<line x1='0' y1='${i}' x2='${grid.xMax}' y2='${i}' stroke='${grid.color}' stroke-width='${grid.width}px' stroke-linecap='butt' stroke-dasharray='${grid.dash}' />`;
+    }
+}   //END of updateGridY()
 
 
 
+function initiateSVG() {
+    
+    $('#artSpace').attr( {"width": grid.xMax, "height": grid.yMax } );
+
+    $('#artCtrl').append("<div class='filler' >grid?</div>");
+    $('#artCtrl').append("<input type='checkbox' value='wow' />");
+    $('#artCtrl').append("<div class='filler' >w </div>");
+    $('#artCtrl').append(`<input type='number' value='${grid.xMax}' />`);
+    $('#artCtrl').append("<div class='filler' >h </div>");
+    $('#artCtrl').append(`<input type='number' value='${grid.yMax}' />`);
+    $('#artCtrl').append("<div class='filler' >x </div>");
+    $('#artCtrl').append(`<input type='number' value='${grid.xInc}' />`);
+    $('#artCtrl').append("<div class='filler' >y </div>");
+    $('#artCtrl').append(`<input type='number' value='${grid.yInc}' />`);
 
 
-function Initiate() {
+    $("#artCtrl input:eq(1)").on('change', function(ev) {
+        grid.xMax = parseInt(ev.target.value);
+        $('#artSpace').attr( {"width": grid.xMax } );
+        if ( $('#artCtrl :checkbox').is(":checked") ) { updateGridX(); updateGridY(); updateTotal();  }
+    });
+
+    $("#artCtrl input:eq(2)").on('change', function(ev) { 
+        grid.yMax = parseInt(ev.target.value);
+        $('#artSpace').attr( {"height": grid.yMax } );
+        if ( $('#artCtrl :checkbox').is(":checked") ) { updateGridX(); updateGridY(); updateTotal();  }
+    });
+
+    $("#artCtrl input:eq(3)").on('change', function(ev) {
+        grid.xInc = parseInt(ev.target.value);
+        if ( $('#artCtrl :checkbox').is(":checked") ) { updateGridX(); updateTotal();  }
+    });
+
+    $("#artCtrl input:eq(4)").on('change', function(ev) {
+        grid.yInc = parseInt(ev.target.value);
+        if ( $('#artCtrl :checkbox').is(":checked") ) { updateGridY(); updateTotal();  }
+    });
+
+    $('#artCtrl :checkbox').on('click', function() {
+        if ( $('#artCtrl :checkbox').is(":checked") ) {
+            grid.xInc = parseInt( $("#artCtrl input:eq(3)").val() );
+            grid.yInc = parseInt( $("#artCtrl input:eq(4)").val() );
+            updateGridX();
+            updateGridY();
+            updateTotal();
+        } else { svgStr.gridX = ''; svgStr.gridY = ''; updateTotal();  }
+    });
+
+}   // END of initiateSVG()
+
+
+
+
+
+function newRow() {
     // This function loads a new line, but the SVG type has not been identified yet.
     // The user will have to specify whether this element is a line, rect, or circle.
 
@@ -114,47 +193,27 @@ function Initiate() {
 
     var targetID = '';
     $(`.row`).on("dragstart", function(ev) {
-        // ev.stopPropagation();
-        if ( $(this).index() < $(".row").length -1 ) {
-            targetID = ev.target;
-            code.text(`dragging ${targetID.id}`);
-        } else {
-            ev.preventDefault();
-            console.log('unmovable');
-        }
-    });
-
-    $(`.row`).on("dragover", function(ev) {
-        ev.preventDefault();
-        // code.text(`${targetID.id} is about to land on... ${ev.target.id}`);
-    });
-
-    $(`.row`).on("drop", function(ev) {
-        // ev.stopPropagation();
-        $(`#${targetID.id}`).insertBefore(ev.target);
-        // code.text(`dropped ${targetID.id} before ${ev.target.id}`);
-        reNumber();
-        updateSVG();
-    });
-
+        if ( $(this).index() < $(".row").length -1 ) { targetID = ev.target;  code.text(`dragging ${targetID.id}`);
+        } else { ev.preventDefault();  console.log('unmovable'); }  });
+    $(`.row`).on("dragover", function(ev) { ev.preventDefault();  });
+    $(`.row`).on("drop", function(ev) { $(`#${targetID.id}`).insertBefore(ev.target);  reNumber();  updateSVG();  });
     $(`.row >`).on("dragover", function(ev) { ev.stopPropagation(); } );
-
-
 
     $('.tp').on("focus",    function() { $(this).css("background-color", color.shade); });
     $('.tp').on("focusout", function() { $(this).css("background-color", color.blank); });
-    $('.tp').on("change",   function() { $(this).attr("disabled", true); Populate( $(this).val() ); });
+    $('.tp').on("change",   function() { $(this).attr("disabled", true); populateRow( $(this).val() ); });
 
-
-}   // END of Initiate()
-
-
+}   // END of newRow()
 
 
 
 
 
-function Populate(svgType) {
+
+
+
+
+function populateRow(svgType) {
     // Adds a new line to logicSpace.
     // For now, this can only handle "line" type elements.
     // I will add other types later, types like circles, rectangles, etc..
@@ -230,7 +289,7 @@ function Populate(svgType) {
         // This BUTTON is for creating a new row AND deleting an existing row.
         if ( $(this).text() == '+' ) {
             $(this).text('x');
-            Initiate();
+            newRow();
         } else {
             $(this).parent().remove();
             reNumber();
@@ -240,7 +299,7 @@ function Populate(svgType) {
 
     });     // CLICK
 
-}   // End of Populate()
+}   // End of populateRow()
 
 
 
@@ -263,21 +322,21 @@ function updateSVG() {
     // Update codeSpace.
     // Update artSpace.
 
-    let str = '';
-    code.text(str);         // Clear the codeSpace to make room for new string.
+    svgStr.main = '';
+    code.text(svgStr.main);
 
     for ( let i=1 ; i<=$(`#logicSpace > div`).length ; i++ ) {
         
         switch ( $(`#logicSpace div:nth-child(${i}) select:first`).val() ) {
 
             case "line":
-                str += `<line x1='${sel(i,6)}' y1='${sel(i,8)}' x2='${sel(i,10)}' y2='${sel(i,12)}' stroke=${sel(i,18)} stroke-width='${sel(i,16)}px' stroke-linecap=${sel(i,20)} />`;    
+                svgStr.main += `<line x1='${sel(i,6)}' y1='${sel(i,8)}' x2='${sel(i,10)}' y2='${sel(i,12)}' stroke=${sel(i,18)} stroke-width='${sel(i,16)}px' stroke-linecap=${sel(i,20)} />`;    
                 break;
             case "rect":
-                str += `<rect x='${sel(i,6)}' y='${sel(i,8)}' width='${sel(i,10)}' height='${sel(i,12)}' fill=${sel(i,14)} stroke-width=${sel(i,16)} stroke=${sel(i,18)} rx='${sel(i,20)}' />`;
+                svgStr.main += `<rect x='${sel(i,6)}' y='${sel(i,8)}' width='${sel(i,10)}' height='${sel(i,12)}' fill=${sel(i,14)} stroke-width=${sel(i,16)} stroke=${sel(i,18)} rx='${sel(i,20)}' />`;
                 break;
             case "circle":
-                str += `<circle cx='${sel(i,6)}' cy='${sel(i,8)}' r='${sel(i,10)}' fill='${sel(i,14)}' stroke-width='${sel(i,16)}' stroke='${sel(i,18)}' />`;
+                svgStr.main += `<circle cx='${sel(i,6)}' cy='${sel(i,8)}' r='${sel(i,10)}' fill='${sel(i,14)}' stroke-width='${sel(i,16)}' stroke='${sel(i,18)}' />`;
                 break;
             default:
                 break;
@@ -285,12 +344,16 @@ function updateSVG() {
         
     }   // END of for
 
-    code.text(str);
-    art.html(str + gridStr);
+    updateTotal();
 
 };  // End of updateSVG()
 
 
+
+function updateTotal() {
+    code.text(svgStr.main);
+    art.html(svgStr.main + svgStr.gridX + svgStr.gridY);
+}   // END of updateTotal()
 
 
 
@@ -318,7 +381,7 @@ function loadEvents() {
 
     });
 
-}
+}   // END of loadEvents()
 
 
 
@@ -333,10 +396,10 @@ function loadEvents() {
 // ------------------ RUNNING THE CODE ------------------ //
 // ------------------------------------------------------ //
 
-Initiate();
-loadEvents();
-initiateSVGcontrols();
 
+initiateSVG();
+newRow();
+loadEvents();
 
 
 
