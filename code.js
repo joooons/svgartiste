@@ -121,19 +121,14 @@ function updateGridY() {
 
 function initiateSVG() {
     
+    function fl(str) { return `<div class='filler' >${str}</div>`; };
+
     $('#artSpace').attr( {"width": grid.xMax, "height": grid.yMax } );
-
-    $('#artCtrl').append("<div class='filler' >grid?</div>");
-    $('#artCtrl').append("<input type='checkbox' value='wow' />");
-    $('#artCtrl').append("<div class='filler' >w </div>");
-    $('#artCtrl').append(`<input type='number' value='${grid.xMax}' />`);
-    $('#artCtrl').append("<div class='filler' >h </div>");
-    $('#artCtrl').append(`<input type='number' value='${grid.yMax}' />`);
-    $('#artCtrl').append("<div class='filler' >x </div>");
-    $('#artCtrl').append(`<input type='number' value='${grid.xInc}' />`);
-    $('#artCtrl').append("<div class='filler' >y </div>");
-    $('#artCtrl').append(`<input type='number' value='${grid.yInc}' />`);
-
+    $('#artCtrl').append(`${fl('grid')}<input type='checkbox' value='wow' />`);
+    $('#artCtrl').append(`${fl('w ')}<input type='number' value='${grid.xMax}' />`);
+    $('#artCtrl').append(`${fl('h ')}<input type='number' value='${grid.yMax}' />`);
+    $('#artCtrl').append(`${fl('x ')}<input type='number' value='${grid.xInc}' />`);
+    $('#artCtrl').append(`${fl('y ')}<input type='number' value='${grid.yInc}' />`);
 
     $("#artCtrl input:eq(1)").on('change', function(ev) {
         grid.xMax = parseInt(ev.target.value);
@@ -189,6 +184,7 @@ function newRow() {
 
     elem.append(`${fl('ID')}<input value='${max}' type='number' class="id-num" disabled/>`);
     elem.append(`${fl('type')}<select value='none' class='tp' ></select>`);
+
     $(`#logicSpace > div:last-child > select`).append(`${op('none')}${op('line')}${op('rect')}${op('circle')}`);
 
     var targetID = '';

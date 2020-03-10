@@ -34,9 +34,9 @@
                     /* The above two sections eliminate the number scroller for number input elements */
 
                 /* Firefox */
-                input[type=number] {
-                    -moz-appearance:textfield;
-                }
+                /* input[type=number] {
+                    -moz-appearance: textfield;
+                } */
                     /* The above two sections eliminate the number scroller for number input elements */
 
 
@@ -102,6 +102,7 @@
                 font-size: 8pt;
                 border-width: 0px 0px 0px 0px;
                 text-align: center;
+                -moz-appearance: textfield;
             }
 
             .row select {
@@ -181,11 +182,13 @@
                 font-size: 8pt;
                 border-width: 0px 0px 0px 0px;
                 text-align: center;
-                /* color: red; */
-                /* background-color: chartreuse; */
             }
 
-            
+            #artCtrl input[type='number'] {
+                -moz-appearance: textfield;
+            }
+
+
 
             .right > svg {
                 margin: 0px 10px 10px 10px;
